@@ -1,0 +1,15 @@
+@keyframes color {
+	0%   { background: #371B58; }
+	20%  { background: #4C3575; }
+	40%  { background: #5B4B8A; }
+	60%  { background: #7858A6; }
+	80%  { background: #4C3575; }
+	100% { background: #371B58; }
+}
+
+body {
+  background: #371B58; /* Fallback */
+  animation: color 9s infinite linear;
+  text-align: center;
+  padding: 2em;
+}
