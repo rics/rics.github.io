@@ -1,31 +1,42 @@
 // theme-toggle.js
+// Light é o padrão. Dark mode aplica classe "dark-mode" no <body>
+// e troca o <link id="theme-skin"> entre default.css e dark.css.
 
-// Function to toggle between light and dark modes
-function toggleTheme() {
-    const body = document.body;
-    const currentTheme = localStorage.getItem('theme');
+(function () {
+  var SKIN_LIGHT = '/assets/css/skins/default.css';
+  var SKIN_DARK  = '/assets/css/skins/dark.css';
 
-    if (currentTheme === 'dark') {
-        body.classList.remove('dark-mode');
-        localStorage.setItem('theme', 'light');
+  function getSkinLink() {
+    return document.getElementById('theme-skin');
+  }
+
+  function applyTheme(theme) {
+    var link = getSkinLink();
+    if (theme === 'dark') {
+      document.body.classList.add('dark-mode');
+      if (link) link.href = SKIN_DARK;
     } else {
-        body.classList.add('dark-mode');
-        localStorage.setItem('theme', 'dark');
+      document.body.classList.remove('dark-mode');
+      if (link) link.href = SKIN_LIGHT;
     }
-}
+    // Atualiza ícone do botão
+    var btn = document.getElementById('theme-toggle');
+    if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+  }
 
-// Set the theme based on the saved preference
-function setTheme() {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-        document.body.classList.add('dark-mode');
-    } else {
-        document.body.classList.remove('dark-mode');
-    }
-}
+  function toggleTheme() {
+    var current = localStorage.getItem('theme') || 'light';
+    var next = current === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('theme', next);
+    applyTheme(next);
+  }
 
-// Call setTheme on page load
-window.onload = setTheme;
+  // Aplica o tema ao carregar (sem flash — o anti-FOUC no <head> já fez o básico)
+  document.addEventListener('DOMContentLoaded', function () {
+    var saved = localStorage.getItem('theme') || 'light';
+    applyTheme(saved);
 
-// Example usage for a button
-// document.getElementById('theme-toggle-button').addEventListener('click', toggleTheme);
+    var btn = document.getElementById('theme-toggle');
+    if (btn) btn.addEventListener('click', toggleTheme);
+  });
+})();

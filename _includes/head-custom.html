@@ -1,5 +1,14 @@
 <!-- start custom head snippets -->
 
-<!-- insert favicons. use http://realfavicongenerator.net/ -->
+<!-- Anti-FOUC: aplica o tema antes de renderizar a página -->
+<script>
+(function() {
+  var t = localStorage.getItem('theme');
+  if (t === 'dark') document.documentElement.classList.add('dark-mode');
+})();
+</script>
+
+<!-- Skin dinâmica (trocada pelo theme-toggle.js) -->
+<link id="theme-skin" rel="stylesheet" href="/assets/css/skins/default.css">
 
 <!-- end custom head snippets -->
